@@ -1,24 +1,31 @@
 package com.polytech.eventmanager.model;
 
-import lombok.Data;
-
+import lombok.*;
+import javax.persistence.*; // import persistance library
 import java.util.Date;
 
-@Data
+@Entity // mark class as a database entity
+@Getter // specify separatly lombok annotation instead of @Data to avoid some problems
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "event") // name of database table
 public class User {
 
-    protected long id;
+    @Id // annotation for ID column
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // strategy for ID, here it well be ID++
+    @Column(length = 11) // column size on database side definition
+    private Integer id;
 
-    protected String nickname;
+    @Column(name = "name", nullable = false, length = 45) // database definiton => will launch SQL exception
+    // NB: words in name should be linked by underscore => name_of_column
+    private String name;
 
-    protected String firstname;
+    @Column(name = "email", length = 100)
+    private String email;
 
-    protected String lastname;
-
-    protected String password;
-
-    protected String emailAddress;
-
-    protected Date dateOfBirth;
+    @Column(name = "date")
+    private Date date;
 
 }

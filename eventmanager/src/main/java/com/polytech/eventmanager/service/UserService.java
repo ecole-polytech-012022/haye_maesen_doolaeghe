@@ -1,7 +1,6 @@
 package com.polytech.eventmanager.service;
 
 import com.polytech.eventmanager.model.User;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +11,12 @@ public class UserService {
 
     public List<User> getAllUsers() {
         User user1 = new User();
-        user1.setNickname("user1");
-        user1.setEmailAddress("mail@test.com");
+        user1.setName("user1");
+        user1.setEmail("mail@test.com");
 
         User user2 = new User();
-        user2.setNickname("user2");
-        user2.setEmailAddress("mail2@test.com");
+        user2.setName("user2");
+        user2.setEmail("mail2@test.com");
 
         List<User> list = new ArrayList<>();
         list.add(user1);
