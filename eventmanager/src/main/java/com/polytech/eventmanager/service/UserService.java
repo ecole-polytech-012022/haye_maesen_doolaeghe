@@ -1,15 +1,21 @@
 package com.polytech.eventmanager.service;
 
 import com.polytech.eventmanager.model.User;
+import com.polytech.eventmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
+    private final UserRepository repository;
 
-    public List<User> getAllUsers() {
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+        this.initUsers();
+    }
+    public void initUsers() {
         User user1 = new User();
         user1.setName("user1");
         user1.setEmail("mail@test.com");
@@ -18,11 +24,35 @@ public class UserService {
         user2.setName("user2");
         user2.setEmail("mail2@test.com");
 
-        List<User> list = new ArrayList<>();
-        list.add(user1);
-        list.add(user2);
-
-        return list;
+        this.repository.save(user1);
+        this.repository.save(user2);
+    }
+    public List<User> getAllUsers() {
+        return this.repository.findAll();
     }
 
+    public User getUserById(Integer id) {
+
+        Optional<User> found = this.repository.findById(id);
+
+        if (found.isPresent()) {
+            return found.get();
+        }
+        return null;
+    }
+    public User createUser(User givenUser) {
+
+        if (givenUser.getName() != null && givenUser.getEmail() != null) {
+            return this.repository.save(givenUser);
+        }
+        return null;
+    }
+    public boolean deleteUser(Integer userId) {
+        User found = getUserById(userId);
+        if (found != null) {
+            this.repository.deleteById(found.getId());
+            return true;
+        }
+        return false;
+    }
 }
